@@ -1,0 +1,27 @@
+{
+  "name": "chup",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "aphrodite": "^2.1.0",
+    "lodash": "^4.17.5",
+    "md5": "^2.2.1",
+    "moment": "^2.22.0",
+    "phoenix": "^1.3.0",
+    "prop-types": "^15.6.1",
+    "react": "^15.3.1",
+    "react-dom": "^15.3.1",
+    "react-redux": "^5.0.7",
+    "react-router": "4.0.0-alpha.5",
+    "react-scripts": "1.1.4",
+    "redux": "^3.7.2",
+    "redux-form": "^7.3.0",
+    "redux-thunk": "^2.2.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

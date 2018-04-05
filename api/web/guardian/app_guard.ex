@@ -1,0 +1,24 @@
+defmodule Chup.Guardian do
+  @moduledoc false
+
+  use Guardian, otp_app: :chup
+
+  alias Chup.Repo
+  alias Chup.User
+
+  def subject_for_token(user = %User{}, _claims) do
+    {:ok, "User: #{user.id}"}
+  end
+
+  def subject_for_token(_, _) do
+    {:error, :reason_for_error}
+  end
+
+  def resource_from_claims("User:" <> id) do
+    {:ok, Repo.get(User, String.to_integer(id))}
+  end
+  def resource_from_claims(_claims) do
+    {:error, :reason_for_error}
+  end
+
+end
