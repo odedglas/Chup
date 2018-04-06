@@ -11,7 +11,14 @@ defmodule Chup.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  pipeline :auth do
     plug Chup.Guardian.AuthPipeline
+  end
+
+  pipeline :ensure_auth do
+    plug Guardian.Plug.EnsureAuthenticated
   end
 
   scope "/", Chup do
@@ -20,13 +27,20 @@ defmodule Chup.Router do
     get "/", PageController, :index
   end
 
-
   scope "/api", Chup do
-    pipe_through :api
+    pipe_through [:api, :auth]
 
+    #The Login/Logout
     post "/sessions", SessionController, :create
     delete "/sessions", SessionController, :delete
-    post "/sessions/refresh", SessionController, :refresh
-    resources "/users", UserController, only: [:create]
+
+    #Authorized api paths
+    scope "/"  do
+      pipe_through :ensure_auth
+
+      post "/sessions/refresh", SessionController, :refresh
+      resources "/users", UserController, only: [:create]
+    end
+
   end
 end

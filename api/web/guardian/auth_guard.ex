@@ -5,7 +5,12 @@ defmodule Chup.Guardian.AuthPipeline do
                               module: Chup.Guardian,
                               error_handler: Chup.Guardian.AuthErrorHandler
 
-  plug Guardian.Plug.VerifyHeader, claims: @claims, realm: "Bearer"
-  plug Guardian.Plug.EnsureAuthenticated
-  plug Guardian.Plug.LoadResource, ensure: true
+  # If there is a session token, validate it
+  plug Guardian.Plug.VerifySession, claims: %{"typ" => "access"}
+
+  # If there is an authorization header, validate it
+  plug Guardian.Plug.VerifyHeader, claims: %{"typ" => "access"}
+
+  # Load the user if either of the verifications worked
+  plug Guardian.Plug.LoadResource, allow_blank: true
 end

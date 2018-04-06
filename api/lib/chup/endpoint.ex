@@ -36,5 +36,7 @@ defmodule Chup.Endpoint do
     key: "_chup_key",
     signing_salt: "E9SNrWnH"
 
+  plug CORSPlug
   plug Chup.Router
+
 end

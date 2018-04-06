@@ -5,13 +5,16 @@ defmodule Chup.SessionController do
 
     case authenticate(params) do
       {:ok, user} ->
+
         new_conn = Chup.Guardian.Plug.sign_in(conn, user)
         jwt = Chup.Guardian.Plug.current_token(new_conn)
-
+        IO.puts("User - #{user.email} granted with #{jwt}")
         new_conn
         |> put_status(:created)
         |> render("show.json", user: user, jwt: jwt)
       :error ->
+
+        IO.puts("ERROR upon authenticate")
         conn
         |> put_status(:unauthorized)
         |> render("error.json")
@@ -55,6 +58,8 @@ defmodule Chup.SessionController do
   end
 
   defp authenticate(%{"email" => email, "password" => password}) do
+
+    IO.puts("Authenticating - #{email}")
     user = Repo.get_by(Chup.User, email: String.downcase(email))
 
     case check_password(user, password) do
