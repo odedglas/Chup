@@ -12,8 +12,13 @@ const styles = StyleSheet.create({
     boxShadow: '0 1px 1px rgba(0,0,0,.1)',
   },
 
+  icon: {
+    margin:'0 10px',
+    height:'36px'
+  },
+
   link: {
-    color: '#555459',
+    color: '#456e8c',
     fontSize: '22px',
     fontWeight: 'bold',
     ':hover': {
@@ -27,6 +32,7 @@ const styles = StyleSheet.create({
 
 const Navbar = () =>
   <nav className={css(styles.navbar)}>
+    <img className={css(styles.icon)} src={require('../../assets/styles/images/gorilla.svg')} alt="sucks" />
     <Link to="/" className={css(styles.link)}>Chup</Link>
   </nav>;
 
