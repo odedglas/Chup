@@ -36,7 +36,6 @@ config :phoenix, :stacktrace_depth, 20
 
 
 config :chup, Chup.Guardian,
-       secret_key: "LG17BzmhBeq81Yyyn6vH7GVdrCkQpLktol2vdXlBzkRRHpYsZwluKMG9r6fnu90m",
        issuer: "Chup",
        ttl: {30, :days},
        verify_issuer: true

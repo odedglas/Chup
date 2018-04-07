@@ -22,7 +22,7 @@ defmodule Chup.AuthenticationController do
   def delete(conn, _) do
     jwt = Chup.Guardian.Plug.current_token(conn)
     case Chup.Guardian.revoke(jwt) do
-      {:ok, old_claims} ->
+      {:ok, _old_claims} ->
         conn
         |> put_status(:ok)
         |> render("delete.json")
@@ -39,17 +39,17 @@ defmodule Chup.AuthenticationController do
     jwt = Chup.Guardian.Plug.current_token(conn)
 
     case Chup.Guardian.refresh(jwt, ttl: {20, :minutes}) do
-      {:ok, _old_claims, {new_jwt, new_claims}} ->
+      {:ok, _old_claims, {new_jwt, _new_claims}} ->
         conn
         |> put_status(:ok)
         |> render("show.json", user: user, jwt: new_jwt)
       {:error, _reason} ->
         conn
-        |> unauthenticated(_params)
+        |> unauthenticated
     end
   end
 
-  def unauthenticated(conn, _params) do
+  def unauthenticated(conn) do
     IO.puts("Un authenticated")
     conn
     |> put_status(:forbidden)
