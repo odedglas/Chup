@@ -13,8 +13,6 @@ defmodule Chup.SessionController do
         |> put_status(:created)
         |> render("show.json", user: user, jwt: jwt)
       :error ->
-
-        IO.puts("ERROR upon authenticate")
         conn
         |> put_status(:unauthorized)
         |> render("error.json")
@@ -36,25 +34,26 @@ defmodule Chup.SessionController do
   end
 
   def refresh(conn, _params) do
+
     user = Chup.Guardian.Plug.current_resource(conn)
     jwt = Chup.Guardian.Plug.current_token(conn)
 
-    case Chup.Guardian.refresh(jwt, %{ttl: {30, :days}}) do
-      {:ok, {old_jwt, old_claims}, {new_jwt, new_claims}} ->
+    case Chup.Guardian.refresh(jwt, ttl: {1, :minute}) do
+      {:ok, _old_claims, {new_jwt, new_claims}} ->
         conn
         |> put_status(:ok)
         |> render("show.json", user: user, jwt: new_jwt)
       {:error, _reason} ->
         conn
-        |> put_status(:unauthorized)
-        |> render("forbidden.json", error: "Not authenticated")
+        |> unauthenticated(_params)
     end
   end
 
   def unauthenticated(conn, _params) do
+    IO.puts("Un authenticated")
     conn
     |> put_status(:forbidden)
-    |> render(Sling.SessionView, "forbidden.json", error: "Not Authenticated")
+    |> render(Chup.SessionView, "forbidden.json", error: "Not Authenticated")
   end
 
   defp authenticate(%{"email" => email, "password" => password}) do

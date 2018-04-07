@@ -30,16 +30,16 @@ defmodule Chup.Router do
   scope "/api", Chup do
     pipe_through [:api, :auth]
 
-    #The Login/Logout
+    #No Authentication required paths
     post "/sessions", SessionController, :create
     delete "/sessions", SessionController, :delete
+    post "/sessions/refresh", SessionController, :refresh
+    resources "/users", UserController, only: [:create]
 
     #Authorized api paths
     scope "/"  do
       pipe_through :ensure_auth
 
-      post "/sessions/refresh", SessionController, :refresh
-      resources "/users", UserController, only: [:create]
     end
 
   end

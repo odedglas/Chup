@@ -6,22 +6,25 @@ defmodule Chup.Guardian do
   alias Chup.Repo
   alias Chup.User
 
+  @resource_prefix "User: "
+
   def subject_for_token(user = %User{}, _claims) do
     IO.puts("In 'subject_for_token' -> User: #{user.id}")
-    {:ok, "User: #{user.id}"}
+    {:ok, "#{@resource_prefix}#{user.id}"}
   end
 
   def subject_for_token(_, _) do
     {:error, :reason_for_error}
   end
 
-  def resource_from_claims("User:" <> id) do
-
+  def resource_from_claims(claims) do
+    IO.puts("In HERE! -> resource_from_claims")
+    resource_claims = claims["sub"]
+    @resource_prefix <> id = resource_claims
     IO.puts("In 'resource_from_claims' -> User: #{id}")
-    {:ok, Repo.get(User, String.to_integer(id))}
+    {:ok, Repo.get!(User, String.to_integer(id))}
   end
   def resource_from_claims(_claims) do
-    IO.puts("In resource_from_claims - OTHER! -> #{_claims["sub"]}")
     {:error, :reason_for_error}
   end
 
