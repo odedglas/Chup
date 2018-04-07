@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { connectToRoomChannel, leaveRoomChannel } from '../../actions/socket';
+import { connectToRoomChannel, leaveRoomChannel } from '../../actions/room';
 
 class ChatRoom extends Component {
   componentDidMount() {
@@ -44,9 +44,9 @@ ChatRoom.propTypes = {
 
 export default connect(
   state => ({
-    room: state.socket.currentRoom,
+    room: state.room.currentRoom,
     socket: state.socket.currentSocket,
-    channel: state.socket.channel,
+    channel: state.room.channel,
   }),
   { connectToRoomChannel, leaveRoomChannel }
 )(ChatRoom);

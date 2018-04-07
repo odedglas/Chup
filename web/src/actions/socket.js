@@ -14,24 +14,23 @@ export function openSocket() {
   }
 }
 
-export function connectToRoomChannel(socket, roomId) {
+export function connectToChannel(socket, channel, type) {
   return (dispatch) => {
-    if (!socket) { return false; }
-    const channel = socket.channel(`rooms:${roomId}`);
+    const socketChannel = socket.channel(channel);
 
-    channel.join().receive('ok', (response) => {
-      dispatch({ type: 'ROOM_CONNECTED_TO_CHANNEL', response, channel });
+    socketChannel.join().receive('ok', (response) => {
+      dispatch({ type: type, response, socketChannel });
     });
 
     return false;
   };
 }
 
-export function leaveRoomChannel(channel) {
+export function leaveChannel(channel, type) {
   return (dispatch) => {
     if (channel) {
       channel.leave();
+      dispatch({ type: type });
     }
-    dispatch({ type: 'USER_LEFT_ROOM' });
   };
 }
