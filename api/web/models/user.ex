@@ -6,6 +6,7 @@ defmodule Chup.User do
     field :email, :string
     field :password_hash, :string
     field :password, :string, virtual: true
+    many_to_many :rooms, Chup.Room, join_through: "user_rooms"
 
     timestamps()
   end

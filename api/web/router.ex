@@ -40,6 +40,9 @@ defmodule Chup.Router do
     scope "/"  do
       pipe_through :ensure_auth
 
+      get "/users/:id/rooms", UserController, :rooms
+      resources "/rooms", RoomController, only: [:index, :create]
+      post "/rooms/:id/join", RoomController, :join
     end
 
   end
