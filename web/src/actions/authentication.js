@@ -1,6 +1,7 @@
 import { reset } from 'redux-form';
 import api from '../api';
 import { fetchUserRooms } from './rooms';
+import { openSocket } from './socket';
 
 function setCurrentUser(dispatch, response) {
 
@@ -10,6 +11,9 @@ function setCurrentUser(dispatch, response) {
 
   //Fetching User rooms
   dispatch(fetchUserRooms(response.data.id));
+
+  //Opening socket for User/Room
+  dispatch(openSocket());
 }
 
 export function login(data, router) {
