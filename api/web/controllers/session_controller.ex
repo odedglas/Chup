@@ -38,7 +38,7 @@ defmodule Chup.SessionController do
     user = Chup.Guardian.Plug.current_resource(conn)
     jwt = Chup.Guardian.Plug.current_token(conn)
 
-    case Chup.Guardian.refresh(jwt, ttl: {1, :minute}) do
+    case Chup.Guardian.refresh(jwt, ttl: {20, :minutes}) do
       {:ok, _old_claims, {new_jwt, new_claims}} ->
         conn
         |> put_status(:ok)
