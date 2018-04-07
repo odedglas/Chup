@@ -8,7 +8,7 @@ import NotFound from './NotFound'
 import Login from './Login';
 import Signup from './Signup';
 import Sidebar from './Sidebar';
-import Room from './Room';
+import ChatRoom from './ChatRoom';
 
 import MatchAuthenticated from './routes-impl/MatchAuthenticated'
 import RedirectAuthenticated from './routes-impl/RedirectAuthenticated'
@@ -43,7 +43,7 @@ class App extends Component {
             <MatchAuthenticated exactly pattern="/" component={Home} {...authProps} />
             <RedirectAuthenticated pattern="/login" component={Login} {...authProps} />
             <RedirectAuthenticated pattern="/signup" component={Signup} {...authProps} />
-            <MatchAuthenticated pattern="/r/:id" component={Room} {...authProps} />
+            <MatchAuthenticated pattern="/r/:id" component={ChatRoom} {...authProps} />
             <Miss component={NotFound} />
           </div>
         )}

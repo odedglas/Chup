@@ -33,6 +33,7 @@ function queryString(params) {
 
 export default {
   fetch(url, params = {}) {
+    console.log(`{GET} - ${API}${url}${queryString(params)}`);
     return fetch(`${API}${url}${queryString(params)}`, {
       method: 'GET',
       headers: headers(),
@@ -42,7 +43,7 @@ export default {
 
   post(url, data) {
     const body = JSON.stringify(data);
-
+    console.log(`{POST} - ${API}${url}}`);
     return fetch(`${API}${url}`, {
       method: 'POST',
       headers: headers(),
@@ -53,7 +54,7 @@ export default {
 
   patch(url, data) {
     const body = JSON.stringify(data);
-
+    console.log(`{PATCH} - ${API}${url}}`);
     return fetch(`${API}${url}`, {
       method: 'PATCH',
       headers: headers(),
@@ -63,6 +64,7 @@ export default {
   },
 
   delete(url) {
+    console.log(`{DELETE} - ${API}${url}}`);
     return fetch(`${API}${url}`, {
       method: 'DELETE',
       headers: headers(),
