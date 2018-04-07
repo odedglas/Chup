@@ -1,4 +1,4 @@
-defmodule Chup.SessionController do
+defmodule Chup.AuthenticationController do
   use Chup.Web, :controller
 
   def create(conn, params) do

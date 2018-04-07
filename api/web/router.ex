@@ -31,10 +31,10 @@ defmodule Chup.Router do
     pipe_through [:api, :auth]
 
     #No Authentication required paths
-    post "/sessions", SessionController, :create
-    delete "/sessions", SessionController, :delete
-    post "/sessions/refresh", SessionController, :refresh
-    resources "/users", UserController, only: [:create]
+    post "/login", AuthenticationController, :create
+    delete "/logout", AuthenticationController, :delete
+    post "/refresh-token", AuthenticationController, :refresh
+    resources "/signup", RegisterationController, only: [:create]
 
     #Authorized api paths
     scope "/"  do

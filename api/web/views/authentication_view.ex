@@ -1,4 +1,4 @@
-defmodule Chup.SessionView do
+defmodule Chup.AuthenticationView do
   use Chup.Web, :view
 
   def render("show.json", %{user: user, jwt: jwt}) do

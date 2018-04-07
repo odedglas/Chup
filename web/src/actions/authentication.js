@@ -7,7 +7,7 @@ function setCurrentUser(dispatch, response) {
 }
 
 export function login(data, router) {
-  return dispatch => api.post('/sessions', data)
+  return dispatch => api.post('/login', data)
   .then((response) => {
     setCurrentUser(dispatch, response);
     dispatch(reset('login'));
@@ -16,7 +16,7 @@ export function login(data, router) {
 }
 
 export function signup(data, router) {
-  return dispatch => api.post('/users', data)
+  return dispatch => api.post('/signup', data)
   .then((response) => {
     setCurrentUser(dispatch, response);
     dispatch(reset('signup'));
@@ -25,7 +25,7 @@ export function signup(data, router) {
 }
 
 export function logout(router) {
-  return dispatch => api.delete('/sessions')
+  return dispatch => api.delete('/logout')
   .then(() => {
     localStorage.removeItem('token');
     dispatch({ type: 'LOGOUT' });
@@ -36,7 +36,7 @@ export function logout(router) {
 export function authenticate() {
   return (dispatch) => {
     dispatch({ type: 'AUTHENTICATION_REQUEST' });
-    return api.post('/sessions/refresh')
+    return api.post('/refresh-token')
     .then((response) => {
       setCurrentUser(dispatch, response);
     })

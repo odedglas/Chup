@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter, Miss } from 'react-router';
 import { connect } from 'react-redux';
-import { authenticate, unauthenticate } from '../actions/session';
+import { authenticate, unauthenticate } from '../actions/authentication';
 import Home from './Home';
 import NotFound from './NotFound'
 import Login from './Login';
@@ -47,8 +47,8 @@ App.propTypes = {
 
 export default connect(
   state => ({
-    isAuthenticated: state.session.isAuthenticated,
-    willAuthenticate: state.session.willAuthenticate,
+    isAuthenticated: state.authentication.isAuthenticated,
+    willAuthenticate: state.authentication.willAuthenticate,
   }),
   { authenticate, unauthenticate }
 )(App);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { logout } from '../actions/session';
+import { logout } from '../actions/authentication';
 import Navbar from './common/Navbar';
 
 class Home extends Component {
@@ -41,8 +41,8 @@ Home.propTypes = {
 
 export default connect(
   state => ({
-    isAuthenticated: state.session.isAuthenticated,
-    currentUser: state.session.currentUser,
+    isAuthenticated: state.authentication.isAuthenticated,
+    currentUser: state.authentication.currentUser,
   }),
   { logout }
 )(Home);

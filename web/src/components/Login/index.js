@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { login } from '../../actions/session';
+import { login } from '../../actions/authentication';
 import LoginForm from './LoginForm';
 import Navbar from '../common/Navbar';
 

@@ -18,7 +18,6 @@ defmodule Chup.Guardian do
   end
 
   def resource_from_claims(claims) do
-    IO.puts("In HERE! -> resource_from_claims")
     resource_claims = claims["sub"]
     @resource_prefix <> id = resource_claims
     IO.puts("In 'resource_from_claims' -> User: #{id}")

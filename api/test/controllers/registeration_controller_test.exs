@@ -1,4 +1,4 @@
-defmodule Chup.UserControllerTest do
+defmodule Chup.RegisterationControllerTest do
   use Chup.ConnCase
 
   alias Chup.User

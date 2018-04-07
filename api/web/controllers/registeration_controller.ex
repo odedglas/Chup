@@ -1,4 +1,4 @@
-defmodule Chup.UserController do
+defmodule Chup.RegisterationController do
   use Chup.Web, :controller
 
   alias Chup.User
@@ -15,7 +15,7 @@ defmodule Chup.UserController do
 
         new_conn
         |> put_status(:created)
-        |> render(Chup.SessionView, "show.json", user: user, jwt: jwt)
+        |> render(Chup.AuthenticationView, "show.json", user: user, jwt: jwt)
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
