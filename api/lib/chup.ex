@@ -12,8 +12,8 @@ defmodule Chup do
       supervisor(Chup.Repo, []),
       # Start the endpoint when the application starts
       supervisor(Chup.Endpoint, []),
-      # Start your own worker by calling: Chup.Worker.start_link(arg1, arg2, arg3)
-      # worker(Chup.Worker, [arg1, arg2, arg3]),
+      #Start Precense tracking
+      supervisor(Chup.Presence, []),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

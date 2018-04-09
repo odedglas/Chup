@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { connectToRoomChannel, leaveRoomChannel } from '../../actions/room';
+import { connectToRoomChannel, leaveRoomChannel, createMessage } from '../../actions/room';
+
+import MessageList from './MessageList';
+import MessageForm from './MessageForm';
+import RoomNavbar from './RoomNavbar';
+import RoomSidebar from './RoomSidebar';
 
 class ChatRoom extends Component {
   componentDidMount() {
@@ -22,15 +27,33 @@ class ChatRoom extends Component {
     this.props.leaveRoomChannel(this.props.channel);
   }
 
+  handleMessageCreate = (data) => {
+    this.props.createMessage(this.props.channel, data);
+  }
+
   render() {
     return (
-      <div>{this.props.room.name} -> {this.props.room.id} , Param id is : - {this.props.params.id} </div>
+      <div style={{ display: 'flex', height: '100vh' }}>
+        <RoomSidebar room={this.props.room}
+                     currentUser={this.props.currentUser}
+                     presentUsers={this.props.presentUsers}
+        />
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <RoomNavbar room={this.props.room} />
+          <MessageList messages={this.props.messages} />
+          <MessageForm onSubmit={this.handleMessageCreate} />
+        </div>
+      </div>
     );
   }
 }
 const RoomType = PropTypes.shape({
   id: PropTypes.number,
   name: PropTypes.string
+});
+
+const MessageType = PropTypes.shape({
+  id: PropTypes.number
 });
 
 ChatRoom.propTypes = {
@@ -40,6 +63,7 @@ ChatRoom.propTypes = {
   params: PropTypes.shape({id: PropTypes.string}),
   connectToRoomChannel: PropTypes.func.isRequired,
   leaveRoomChannel: PropTypes.func.isRequired,
+  messages: PropTypes.arrayOf(MessageType)
 };
 
 export default connect(
@@ -47,6 +71,9 @@ export default connect(
     room: state.room.currentRoom,
     socket: state.socket.currentSocket,
     channel: state.room.channel,
+    messages: state.room.messages,
+    presentUsers: state.room.presentUsers,
+    currentUser: state.authentication.currentUser,
   }),
-  { connectToRoomChannel, leaveRoomChannel }
+  { connectToRoomChannel, leaveRoomChannel, createMessage }
 )(ChatRoom);

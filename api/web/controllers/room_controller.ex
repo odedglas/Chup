@@ -26,7 +26,7 @@ defmodule Chup.RoomController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(Sling.ChangesetView, "error.json", changeset: changeset)
+        |> render(Chup.ChangesetView, "error.json", changeset: changeset)
     end
   end
 
@@ -47,7 +47,7 @@ defmodule Chup.RoomController do
       {:error, changeset} ->
         conn
         |> put_status(:unprocessable_entity)
-        |> render(Sling.ChangesetView, "error.json", changeset: changeset)
+        |> render(Chup.ChangesetView, "error.json", changeset: changeset)
     end
   end
 end

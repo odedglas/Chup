@@ -1,6 +1,6 @@
 const initialState = {
   all: [],
-  currentUserRooms: [],
+  currentUserRooms: []
 };
 
 export default function (state = initialState, action) {

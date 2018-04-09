@@ -1,4 +1,4 @@
-import { Socket } from 'phoenix';
+import { Socket, Presence } from 'phoenix';
 const API_URL = process.env.REACT_APP_API_URL;
 const WEBSOCKET_URL = API_URL.replace(/(https|http)/, 'ws').replace('/api', '');
 
@@ -14,12 +14,39 @@ export function openSocket() {
   }
 }
 
-export function connectToChannel(socket, channel, type) {
+export function connectToChannel(socket, channelMeta, presenceSync) {
   return (dispatch) => {
-    const socketChannel = socket.channel(channel);
+    const channel = socket.channel(channelMeta.name);
 
-    socketChannel.join().receive('ok', (response) => {
-      dispatch({ type: type, response, socketChannel });
+    //Checking if should set presence tracking
+    if(presenceSync) {
+      let presences = {};
+
+      channel.on('presence_state', (state) => {
+        presences = Presence.syncState(presences, state);
+        presenceSync(dispatch, presences);
+      });
+
+      channel.on('presence_diff', (diff) => {
+        presences = Presence.syncDiff(presences, diff);
+        presenceSync(dispatch, presences);
+      });
+    }
+
+    //On message created listener
+    if(channelMeta.onMessageDispatch){
+
+      channel.on("message_created", (message) => {
+        dispatch({ type: channelMeta.onMessageDispatch, message });
+      });
+    }
+
+    channel.join().receive('ok', (response) => {
+      if(channelMeta.onConnectDispatch) {
+
+        dispatch({ type: channelMeta.onConnectDispatch, response, channel });
+      }
+
     });
 
     return false;
