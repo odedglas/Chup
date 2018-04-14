@@ -42,6 +42,10 @@ const styles = StyleSheet.create({
     },
   },
 
+  active:{
+    color:'white'
+  },
+
   listHeading: {
     marginLeft: '15px',
     marginBottom: '5px',
@@ -54,12 +58,11 @@ const RoomSidebar = ({ room, currentUser, presentUsers }) =>
   <div className={css(styles.roomSidebar)}>
     <div className={css(styles.header)}>
       <h2 className={css(styles.roomName)}>{room.name}</h2>
-      <div style={{ fontSize: '13px' }}>{currentUser.username}</div>
     </div>
     <div className={css(styles.listHeading)}>Active Users</div>
     <ul className={css(styles.userList)}>
       {(presentUsers).map(user =>
-        <li key={user.id} className={css(styles.username)}>{user.username}</li>
+        <li key={user.id} className={css(styles.username, user.id === currentUser.id ? styles.active : '')}>{user.username}</li>
       )}
     </ul>
   </div>;

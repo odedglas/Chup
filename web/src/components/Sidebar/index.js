@@ -24,18 +24,7 @@ const styles = StyleSheet.create({
   },
 
   activeLink: {
-    color: '#fff',
-    ':after': {
-      position: 'absolute',
-      top: '12px',
-      bottom: '12px',
-      left: '0',
-      width: '3px',
-      background: 'rgba(255,255,255,.2)',
-      borderTopRightRadius: '3px',
-      borderBottomRightRadius: '3px',
-      content: '""',
-    },
+    color: '#fff'
   },
 
   badge: {

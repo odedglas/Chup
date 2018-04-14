@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { connectToRoomChannel, leaveRoomChannel, createMessage } from '../../actions/room';
+import { connectToRoomChannel, leaveRoomChannel, createMessage, loadOlderMessages} from '../../actions/room';
 
 import MessageList from './MessageList';
 import MessageForm from './MessageForm';
@@ -27,11 +27,21 @@ class ChatRoom extends Component {
     this.props.leaveRoomChannel(this.props.channel);
   }
 
+  handleLoadMore = () =>
+    this.props.loadOlderMessages(
+      this.props.params.id,
+      { last_seen_id: this.props.messages[0].id }
+    );
+
   handleMessageCreate = (data) => {
     this.props.createMessage(this.props.channel, data);
-  }
+    this.messageList.scrollToBottom();
+  };
 
   render() {
+
+    const hasMoreMessages = this.props.pagination.total_pages > this.props.pagination.page_number;
+
     return (
       <div style={{ display: 'flex', height: '100vh' }}>
         <RoomSidebar room={this.props.room}
@@ -40,7 +50,13 @@ class ChatRoom extends Component {
         />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <RoomNavbar room={this.props.room} />
-          <MessageList messages={this.props.messages} />
+          <MessageList
+            hasMoreMessages={hasMoreMessages}
+            messages={this.props.messages}
+            onLoadMore={this.handleLoadMore}
+            ref={(c) => { this.messageList = c; }}
+            isLoading={this.props.isLoading}
+          />
           <MessageForm onSubmit={this.handleMessageCreate} />
         </div>
       </div>
@@ -63,7 +79,17 @@ ChatRoom.propTypes = {
   params: PropTypes.shape({id: PropTypes.string}),
   connectToRoomChannel: PropTypes.func.isRequired,
   leaveRoomChannel: PropTypes.func.isRequired,
-  messages: PropTypes.arrayOf(MessageType)
+  messages: PropTypes.arrayOf(MessageType),
+  presentUsers: PropTypes.array,
+  currentUser: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  loadOlderMessages: PropTypes.func.isRequired,
+  pagination: PropTypes.shape({
+    total_pages: PropTypes.number,
+    total_entries: PropTypes.number,
+    page_size: PropTypes.number,
+    page_number: PropTypes.number
+  })
 };
 
 export default connect(
@@ -74,6 +100,8 @@ export default connect(
     messages: state.room.messages,
     presentUsers: state.room.presentUsers,
     currentUser: state.authentication.currentUser,
+    pagination: state.room.pagination,
+    isLoading: state.room.loadingOlderMessages,
   }),
-  { connectToRoomChannel, leaveRoomChannel, createMessage }
+  { connectToRoomChannel, leaveRoomChannel, createMessage, loadOlderMessages}
 )(ChatRoom);
