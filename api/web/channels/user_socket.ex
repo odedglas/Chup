@@ -3,7 +3,7 @@ defmodule Chup.UserSocket do
 
   channel "rooms:*", Chup.RoomChannel
 
-  transport :websocket, Phoenix.Transports.WebSocket
+  transport :websocket, Phoenix.Transports.WebSocket, timeout: 45_000
 
   def connect(%{"token" => token}, socket) do
     case Chup.Guardian.decode_and_verify(token) do

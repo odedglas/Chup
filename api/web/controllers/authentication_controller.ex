@@ -53,7 +53,7 @@ defmodule Chup.AuthenticationController do
     IO.puts("Un authenticated")
     conn
     |> put_status(:forbidden)
-    |> render(Chup.SessionView, "forbidden.json", error: "Not Authenticated")
+    |> render(Chup.AuthenticationView, "forbidden.json", error: "Not Authenticated")
   end
 
   defp authenticate(%{"email" => email, "password" => password}) do
