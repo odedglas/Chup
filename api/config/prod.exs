@@ -24,7 +24,10 @@ config :logger, level: :info
 
 #Guardian
 config :guardian, Guardian,
-       secret_key: System.get_env("GUARDIAN_SECRET_KEY")
+       secret_key: System.get_env("GUARDIAN_SECRET_KEY"),
+       issuer: "Chup",
+       ttl: {30, :days},
+       verify_issuer: true
 
 #Ecto Repo
 config :chup, Chup.Repo,
