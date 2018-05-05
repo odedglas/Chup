@@ -74,7 +74,7 @@ const Sidebar = ({ rooms, router, onLogoutClick }) =>
       activeClassName={css(styles.activeLink)}
     >
       <div className={css(styles.badge)}>
-        <span className="fa fa-plus" />
+        <span> <img alt="home" src={require('../../assets/styles/images/house-outline.svg')} height="24"/></span>
       </div>
     </Link>
     <div style={{ flex: '1' }} />

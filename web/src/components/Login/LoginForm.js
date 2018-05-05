@@ -11,14 +11,31 @@ const styles = StyleSheet.create({
     padding: '3rem 4rem',
     margin: '2rem auto',
   },
+  error: {
+    color:'red',
+    margin:'0',
+    padding: '1rem 0 0 0'
+  }
 });
 
 class LoginForm extends Component {
 
-  handleSubmit = data => this.props.onSubmit(data);
+  constructor(props) {
+    super(props);
+    this.state = {error: undefined};
+  }
+
+  handleSubmit = data => {
+    this.setState({error:undefined});
+    this.props.onSubmit(data)
+    .catch(e => {
+      this.setState({error:e.error});
+    })
+  };
 
   render() {
     const { handleSubmit, submitting } = this.props;
+    const { error } = this.state;
 
     return (
       <form
@@ -35,7 +52,8 @@ class LoginForm extends Component {
         >
           {submitting ? 'Logging in...' : 'Login'}
         </button>
-        <hr style={{ margin: '2rem 0' }} />
+        {error ? <label className={css(styles.error)} style={{ padding: '1rem 0', marginBottom:'0'}}> {error} </label> : null}
+        <hr style={{ margin: '1.5rem 0' }} />
         <Link to="/signup" className="btn btn-block btn-secondary">
           Create a new account
         </Link>
