@@ -22,20 +22,21 @@ class LoginForm extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {error: undefined};
+    this.state = {error: undefined, submitting: false};
   }
 
   handleSubmit = data => {
-    this.setState({error:undefined});
+    this.setState({error:undefined, submitting:true});
     this.props.onSubmit(data)
+    .then(d => this.setState({submitting:false}))
     .catch(e => {
-      this.setState({error:e.error});
+      this.setState({error:e.error, submitting:false});
     })
   };
 
   render() {
-    const { handleSubmit, submitting } = this.props;
-    const { error } = this.state;
+    const { handleSubmit } = this.props;
+    const { error, submitting } = this.state;
 
     return (
       <form
