@@ -23,7 +23,7 @@ config :chup, Chup.Endpoint,
 config :logger, level: :info
 
 #Guardian
-config :guardian, Guardian,
+config :chup, Chup.Guardian,
        secret_key: System.get_env("GUARDIAN_SECRET_KEY"),
        issuer: "Chup",
        ttl: {30, :days},
